@@ -1,4 +1,4 @@
-const initialValue = []
+const initialValue = {}
 const wordsReducer = (state, action) => {
   switch (action.type) {
     case 'set':
