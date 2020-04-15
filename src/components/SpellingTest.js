@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PlayWord from './PlayWord'
+import Answer from './Answer'
+import Reveal from './Reveal'
 
 const SpellingTest = ({ testWords }) => {
   const [currentWord, setCurrentWord] = useState(0)
@@ -25,6 +27,8 @@ const SpellingTest = ({ testWords }) => {
       <button onClick={next} disabled={currentWord >= testWords.length - 1}>
         next
       </button>
+      <Answer word={word} />
+      <Reveal word={word} />
     </div>
   )
 }
