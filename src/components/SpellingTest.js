@@ -1,9 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react'
 import WordsContext from '../context/Firebase/Firestore/Words/WordsContext'
 import wordsReducer from '../context/Firebase/Firestore/Words/wordsReducer'
+import CloudFunctionsContext from '../context/Firebase/CloudFunctions/CloudFunctionsContext'
 
 const SpellingTest = ({ testWords }) => {
   const [currentWord, setCurrentWord] = useState(0)
+  const [cloudFunctions] = useContext(CloudFunctionsContext)
+  useEffect(() => {
+    if (cloudFunctions) {
+      cloudFunctions
+        .httpsCallable('helloWorld')()
+        .then(console.log)
+        .catch(console.log)
+    }
+  }, [cloudFunctions])
   const next = () => {
     setCurrentWord(currentWord + 1)
   }

@@ -1,13 +1,13 @@
 import React, { useReducer, useContext, useEffect, createContext } from 'react'
 import firestoreReducer from './firestoreReducer'
-import FireBaseContext from '../FirebaseContext'
+import FirebaseContext from '../FirebaseContext'
 import { WordsContextProvider } from './Words/WordsContext'
 
 const FirestoreContext = createContext()
 
 export const FirestoreContextProvider = ({ children }) => {
   const [firestore, dispatchFirestore] = useReducer(...firestoreReducer)
-  const [firebase] = useContext(FireBaseContext)
+  const [firebase] = useContext(FirebaseContext)
   useEffect(() => {
     if (firebase) {
       dispatchFirestore({ type: 'init', payload: firebase })

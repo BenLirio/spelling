@@ -1,16 +1,21 @@
 import React, { useReducer, createContext } from 'react'
 import firebaseReducer from './firebaseReducer'
 import { FirestoreContextProvider } from './Firestore/FirestoreContext'
+import { CloudFunctionsContextProvider } from './CloudFunctions/CloudFunctionsContext'
 
-const FireBaseContext = createContext()
+const FirebaseContext = createContext()
 
 export const FirebaseContextProvider = ({ children }) => {
   const [firebase, dispatchFirebase] = useReducer(...firebaseReducer)
   return (
-    <FireBaseContext.Provider value={[firebase, dispatchFirebase]}>
-      <FirestoreContextProvider>{children}</FirestoreContextProvider>
-    </FireBaseContext.Provider>
+    <FirebaseContext.Provider value={[firebase, dispatchFirebase]}>
+      <FirestoreContextProvider>
+        <CloudFunctionsContextProvider>
+          {children}
+        </CloudFunctionsContextProvider>
+      </FirestoreContextProvider>
+    </FirebaseContext.Provider>
   )
 }
 
-export default FireBaseContext
+export default FirebaseContext
