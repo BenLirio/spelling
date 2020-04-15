@@ -1,28 +1,19 @@
-import React, { useEffect, useContext, useState } from 'react'
-import CloudFunctionsContext from '../context/Firebase/CloudFunctions/CloudFunctionsContext'
+import React, { useEffect, useState, useMemo } from 'react'
+import useGetAudio from '../context/Firebase/CloudFunctions/useGetAudio'
 let source = null
 const PlayWord = ({ word }) => {
-  const [audioCtx, setAudioCtx] = useState(
-    new (window.AudioContext || window.webkitAudioContext)()
+  const audioCtx = useMemo(
+    () => new (window.AudioContext || window.webkitAudioContext)(),
+    []
   )
   const [audioBuffer, setAudioBuffer] = useState()
-  const [cloudFunctions] = useContext(CloudFunctionsContext)
+  const getAudio = useGetAudio()
+
   useEffect(() => {
-    if (cloudFunctions && word) {
-      cloudFunctions
-        .httpsCallable('getAudio')({ word })
-        .then((res) => {
-          const audioContent = Buffer.from(res.data, 'base64')
-          audioCtx
-            .decodeAudioData(audioContent.buffer)
-            .then((buffer) => {
-              setAudioBuffer(buffer)
-            })
-            .catch(console.log)
-        })
-        .catch(console.log)
+    if (word) {
+      getAudio(word).then(setAudioBuffer).catch(console.error)
     }
-  }, [cloudFunctions, word])
+  }, [word])
   const play = () => {
     if (source) {
       source.stop()
