@@ -1,7 +1,5 @@
-import React, { createContext } from 'react'
-import FirebaseContextProvider from './Firebase/FirebaseContextProvider'
-
-export const FireBaseContext = createContext()
+import React from 'react'
+import { FirebaseContextProvider } from './Firebase/FirebaseContext'
 
 const RootContext = ({ children }) => {
   return <FirebaseContextProvider>{children}</FirebaseContextProvider>
