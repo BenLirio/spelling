@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState, createContext } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import FirestoreContext from '../context/Firebase/Firestore/FirestoreContext'
+import ShowSet from './ShowSet'
 import SpellingSet from './SpellingSet'
-import EditSet from './EditSet'
 
 export const SpellingSetsContext = createContext()
 export const SpellingSetContext = createContext()
@@ -49,7 +49,7 @@ const SpellingSets = () => {
         </form>
         <hr />
         <SpellingSetContext.Provider value={[currentSet]}>
-          <EditSet />
+          <ShowSet />
         </SpellingSetContext.Provider>
       </SpellingSetsContext.Provider>
     </>

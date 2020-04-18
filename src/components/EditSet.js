@@ -2,26 +2,13 @@ import React, { useContext, useState, useEffect } from 'react'
 import { SpellingSetContext } from './SpellingSets'
 import FireBaseContext from '../context/Firebase/FirebaseContext'
 import FirestoreContext from '../context/Firebase/Firestore/FirestoreContext'
+import { WordsContext } from './ShowSet'
 
 const EditSet = () => {
-  const [words, setWords] = useState({})
   const [spellingSet] = useContext(SpellingSetContext)
   const [wordInput, setWordInput] = useState('')
   const [firestore] = useContext(FirestoreContext)
-  useEffect(() => {
-    if (!spellingSet) return
-    if (!firestore) return
-    setWords({})
-    firestore
-      .collection(`spellingSet/${spellingSet.id}/words`)
-      .onSnapshot((snapshot) => {
-        snapshot.forEach((doc) => {
-          setWords((oldWords) => {
-            return { ...oldWords, [doc.id]: doc }
-          })
-        })
-      })
-  }, [spellingSet])
+  const [words] = useContext(WordsContext)
 
   if (!spellingSet) return <h3>Select a set</h3>
   const addWord = (e) => {
@@ -34,8 +21,6 @@ const EditSet = () => {
 
   return (
     <>
-      <h3>Set: {spellingSet.data().name}</h3>
-      <button>Test</button>
       {Object.values(words).map((word) => {
         return <p key={word.id}>{word.data().name}</p>
       })}
